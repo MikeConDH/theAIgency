@@ -1,4 +1,4 @@
-# theAIgency
+# theAIgency - The Wrecking Crew of AI
 
 ## Problem
 Got an AI project, we have your developers
