@@ -1,12 +1,14 @@
 # theAIgency - The Wrecking Crew of AI
 
 ## Problem
-Got an AI project, we have your developers
+Midsize business needs AI Engineers
+AI Engineers need to be hired by Midsize buinsess
 
 ## Solution
-An international AI Engineering Employment Agency (IAIEEA)
+An international AI Engineering Employment Agency
 
 ## Archecture
-AIER  - Attracting, Screening, Vetting, Branding
-CPM - Continous Evaluate, GreenLite,  
-AIEF - Travel, Accomodation, Events, Education, Coaching, 
+AI.BIZDEV - Business development by Traditional, Smart Scout, Hack Prod
+AI.ETA - AI Engineering Talent Acquision by Attracting, Screening, Vetting, Branding
+AI.OPS - Operations by GreenLite, Continous Program Management, Legistic (Travel, Accomodation, Work Space, etc)
+AI.COMM - Community by Events, Education, Coaching, 
