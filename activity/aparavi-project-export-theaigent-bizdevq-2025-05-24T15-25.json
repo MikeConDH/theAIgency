@@ -1,0 +1,625 @@
+{
+  "components": [
+    {
+      "id": "parse_1",
+      "provider": "parse",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 122.82634287478783,
+          "y": 404.4830669761794
+        },
+        "measured": {
+          "width": 140,
+          "height": 116
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        },
+        "edges": [
+          {
+            "source": "aws_1",
+            "sourceHandle": "source-tags-0",
+            "target": "parse_1",
+            "targetHandle": "target-tags-0",
+            "id": "xy-edge__aws_1source-tags-0-parse_1target-tags-0"
+          }
+        ]
+      },
+      "input": [
+        {
+          "lane": "tags",
+          "from": "aws_1"
+        }
+      ]
+    },
+    {
+      "id": "preprocessor_langchain_1",
+      "provider": "preprocessor_langchain",
+      "config": {
+        "profile": "default",
+        "default": {
+          "mode": "strlen",
+          "splitter": "RecursiveCharacterTextSplitter",
+          "strlen": 512
+        }
+      },
+      "ui": {
+        "position": {
+          "x": 378.54783415076537,
+          "y": 402.90143303791405
+        },
+        "measured": {
+          "width": 140,
+          "height": 99
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        },
+        "edges": [
+          {
+            "selectable": true,
+            "deletable": true,
+            "id": "xy-edge__parse_1source-text-0-preprocessor_langchain_1target-text-1",
+            "source": "parse_1",
+            "target": "preprocessor_langchain_1",
+            "sourceHandle": "source-text-0",
+            "targetHandle": "target-text-1"
+          }
+        ]
+      },
+      "input": [
+        {
+          "lane": "text",
+          "from": "parse_1"
+        }
+      ]
+    },
+    {
+      "id": "embedding_transformer_1",
+      "provider": "embedding_transformer",
+      "config": {
+        "profile": "miniAll"
+      },
+      "ui": {
+        "position": {
+          "x": 634.0364516514362,
+          "y": 492.4604658884533
+        },
+        "measured": {
+          "width": 140,
+          "height": 83
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        },
+        "edges": [
+          {
+            "selectable": true,
+            "deletable": true,
+            "id": "xy-edge__preprocessor_langchain_1source-documents-1-embedding_transformer_1target-documents-0",
+            "source": "preprocessor_langchain_1",
+            "target": "embedding_transformer_1",
+            "sourceHandle": "source-documents-1",
+            "targetHandle": "target-documents-0"
+          }
+        ]
+      },
+      "input": [
+        {
+          "lane": "documents",
+          "from": "preprocessor_langchain_1"
+        }
+      ]
+    },
+    {
+      "id": "embedding_transformer_2",
+      "provider": "embedding_transformer",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 577.1496144938276,
+          "y": 694.6939369087914
+        },
+        "measured": {
+          "width": 140,
+          "height": 83
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        },
+        "edges": [
+          {
+            "selectable": true,
+            "deletable": true,
+            "id": "xy-edge__chat_1source-questions-0-embedding_transformer_2target-questions-1",
+            "source": "chat_1",
+            "target": "embedding_transformer_2",
+            "sourceHandle": "source-questions-0",
+            "targetHandle": "target-questions-1"
+          }
+        ]
+      },
+      "input": [
+        {
+          "lane": "questions",
+          "from": "chat_1"
+        }
+      ]
+    },
+    {
+      "id": "qdrant_1",
+      "provider": "qdrant",
+      "config": {
+        "profile": "cloud",
+        "cloud": {
+          "collection": "APARAVI",
+          "host": "https://ad311de8-64a9-4839-866a-256136723c1b.us-east4-0.gcp.cloud.qdrant.io",
+          "port": 6333,
+          "score": 0.7,
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.MsM51j5ABZdYjqIQiDqnhLja3SsGyIfyXODbOBrh5kc"
+        },
+        "local": {
+          "collection": "APARAVI",
+          "host": "localhost",
+          "port": 6333,
+          "score": 0.7
+        }
+      },
+      "ui": {
+        "position": {
+          "x": 885.1694880652954,
+          "y": 506.3024269607107
+        },
+        "measured": {
+          "width": 140,
+          "height": 146
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        },
+        "edges": [
+          {
+            "selectable": true,
+            "deletable": true,
+            "id": "xy-edge__embedding_transformer_1source-documents-0-qdrant_1target-documents-0",
+            "source": "embedding_transformer_1",
+            "target": "qdrant_1",
+            "sourceHandle": "source-documents-0",
+            "targetHandle": "target-documents-0"
+          },
+          {
+            "selectable": true,
+            "deletable": true,
+            "id": "xy-edge__embedding_transformer_2source-questions-1-qdrant_1target-questions-1",
+            "source": "embedding_transformer_2",
+            "target": "qdrant_1",
+            "sourceHandle": "source-questions-1",
+            "targetHandle": "target-questions-1"
+          }
+        ]
+      },
+      "input": [
+        {
+          "lane": "documents",
+          "from": "embedding_transformer_1"
+        },
+        {
+          "lane": "questions",
+          "from": "embedding_transformer_2"
+        }
+      ]
+    },
+    {
+      "id": "response_1",
+      "provider": "response",
+      "config": {
+        "lanes": [
+          {
+            "laneId": "answers",
+            "laneName": "Answer"
+          }
+        ]
+      },
+      "ui": {
+        "position": {
+          "x": 1456.1369995768582,
+          "y": 546.6439476815237
+        },
+        "measured": {
+          "width": 140,
+          "height": 257
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        },
+        "edges": [
+          {
+            "selectable": true,
+            "deletable": true,
+            "id": "xy-edge__llm_gemini_1source-answers-0-response_1target-answers-0",
+            "source": "llm_gemini_1",
+            "target": "response_1",
+            "sourceHandle": "source-answers-0",
+            "targetHandle": "target-answers-0"
+          }
+        ]
+      },
+      "input": [
+        {
+          "lane": "answers",
+          "from": "llm_gemini_1"
+        }
+      ]
+    },
+    {
+      "id": "annotation_1",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": -152,
+          "y": 265
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "We are pulling data from Drive\\n\\nhttps://aparavi.com/documentation-aparavi/data-toolchain-for-ai-documentation/sources-components-data-toolchain-for-ai-documentation/remote%e2%80%91to%e2%80%91local-tunnel-ngrok/"
+        }
+      }
+    },
+    {
+      "id": "annotation_2",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 125,
+          "y": 320.43748474121094
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "Here we extract the content out of the files. In this scenario we are extracting text"
+        }
+      }
+    },
+    {
+      "id": "annotation_3",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 378.5,
+          "y": 323.5
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "Take large text segments and split them up into documents that can be embedded"
+        }
+      }
+    },
+    {
+      "id": "annotation_4",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 633.5,
+          "y": 406
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "Using Opensource models we create the vector embeddings for each document"
+        }
+      }
+    },
+    {
+      "id": "annotation_5",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 886.8824546780778,
+          "y": 421.6601177074781
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "This is the vector store which stores the vectors and text created by the pre-processor and embedding.\\n\\nYou can use any vector store and you can sign up for a cloud account or host it locally usually via a docker image.\\n\\nRefer to the vendors website on setting up your store. "
+        }
+      }
+    },
+    {
+      "id": "annotation_6",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 318.3115032656262,
+          "y": 633.3651444238909
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "Creates a chat interface with a link to chat with the sample data"
+        }
+      }
+    },
+    {
+      "id": "chat_1",
+      "provider": "chat",
+      "config": {
+        "mode": "Source",
+        "parameters": {
+          "endpoint": "/",
+          "host": "0.0.0.0",
+          "port": 5566
+        },
+        "type": "chat"
+      },
+      "ui": {
+        "position": {
+          "x": 317,
+          "y": 716
+        },
+        "measured": {
+          "width": 140,
+          "height": 54
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        }
+      }
+    },
+    {
+      "id": "annotation_7",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 578,
+          "y": 615.5
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "Using opensource models to create the embeddings for the questions"
+        }
+      }
+    },
+    {
+      "id": "annotation_8",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 888,
+          "y": 673.5
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "Look up context related to the question"
+        }
+      }
+    },
+    {
+      "id": "annotation_9",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 1143,
+          "y": 573
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "Send the question over to the LLM along with the context retrieved from the vector store. \\n\\n"
+        }
+      }
+    },
+    {
+      "id": "llm_gemini_1",
+      "provider": "llm_gemini",
+      "config": {
+        "profile": "gemini-1_5-pro",
+        "gemini-1_5-pro": {
+          "apikey": "AIzaSyDg5JAsjWT-QwxcvDkSP2m5M1h-LyrT-bA"
+        }
+      },
+      "ui": {
+        "position": {
+          "x": 1139,
+          "y": 653
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        },
+        "edges": [
+          {
+            "selectable": true,
+            "deletable": true,
+            "id": "xy-edge__qdrant_1source-questions-1-llm_gemini_1target-questions-0",
+            "source": "qdrant_1",
+            "target": "llm_gemini_1",
+            "sourceHandle": "source-questions-1",
+            "targetHandle": "target-questions-0"
+          }
+        ]
+      },
+      "input": [
+        {
+          "lane": "questions",
+          "from": "qdrant_1"
+        }
+      ]
+    },
+    {
+      "id": "annotation_10",
+      "provider": "default",
+      "config": {},
+      "ui": {
+        "position": {
+          "x": 1455.5,
+          "y": 467
+        },
+        "measured": {
+          "width": 140,
+          "height": 70
+        },
+        "data": {
+          "class": "annotation",
+          "type": "annotation",
+          "content": "Returns the answers to the chat that were generated by the LLM"
+        }
+      }
+    },
+    {
+      "id": "webhook_1",
+      "provider": "webhook",
+      "config": {
+        "mode": "Source",
+        "type": "webhook"
+      },
+      "ui": {
+        "position": {
+          "x": 211.8976589176882,
+          "y": 782.3512691576191
+        },
+        "measured": {
+          "width": 140,
+          "height": 116
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        }
+      }
+    },
+    {
+      "id": "question_1",
+      "provider": "question",
+      "config": {
+        "profile": "default"
+      },
+      "ui": {
+        "position": {
+          "x": 397.8721669346451,
+          "y": 795.8268756158104
+        },
+        "measured": {
+          "width": 140,
+          "height": 54
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        },
+        "edges": [
+          {
+            "selectable": true,
+            "deletable": true,
+            "id": "xy-edge__webhook_1source-text-0-question_1target-text-0",
+            "source": "webhook_1",
+            "target": "question_1",
+            "sourceHandle": "source-text-0",
+            "targetHandle": "target-text-0"
+          }
+        ]
+      },
+      "input": [
+        {
+          "lane": "text",
+          "from": "webhook_1"
+        }
+      ]
+    },
+    {
+      "id": "aws_1",
+      "provider": "aws",
+      "config": {
+        "actions": {},
+        "exclude": [],
+        "include": [
+          {
+            "path": "mikec-hack/*"
+          }
+        ],
+        "mode": "Source",
+        "parameters": {
+          "region": "us-east-2",
+          "accessKey": "AKIA2ZIOMUYHI7GEAFAB",
+          "secretKey": "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"
+        },
+        "type": "aws"
+      },
+      "ui": {
+        "position": {
+          "x": -142.09579848101328,
+          "y": 396.4591528716795
+        },
+        "measured": {
+          "width": 140,
+          "height": 54
+        },
+        "data": {
+          "class": "default",
+          "type": "default"
+        }
+      }
+    }
+  ],
+  "id": "e16ee0eb-3724-43ec-bfef-0dc5271a1ef2"
+}
