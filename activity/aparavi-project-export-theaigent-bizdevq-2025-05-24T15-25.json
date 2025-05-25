@@ -161,7 +161,7 @@
           "host": "https://ad311de8-64a9-4839-866a-256136723c1b.us-east4-0.gcp.cloud.qdrant.io",
           "port": 6333,
           "score": 0.7,
-          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.MsM51j5ABZdYjqIQiDqnhLja3SsGyIfyXODbOBrh5kc"
+          "apikey": "xxx"
         },
         "local": {
           "collection": "APARAVI",
@@ -471,7 +471,7 @@
       "config": {
         "profile": "gemini-1_5-pro",
         "gemini-1_5-pro": {
-          "apikey": "AIzaSyDg5JAsjWT-QwxcvDkSP2m5M1h-LyrT-bA"
+          "apikey": "xxx"
         }
       },
       "ui": {
@@ -600,8 +600,8 @@
         "mode": "Source",
         "parameters": {
           "region": "us-east-2",
-          "accessKey": "AKIA2ZIOMUYHI7GEAFAB",
-          "secretKey": "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"
+          "accessKey": "xxx",
+          "secretKey": "xxx"
         },
         "type": "aws"
       },
